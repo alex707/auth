@@ -1,0 +1,18 @@
+ru:
+  model:
+    errors:
+      user:
+        name:
+          blank: 'Укажите имя'
+          format: 'Имя должно иметь только заглавные или строчные буквы'
+        email:
+          blank: 'Укажите email'
+          unique: 'Данный email уже существует'
+          format: 'Данный email имеет некорректный формат'
+        city:
+          blank: 'Укажите город'
+        password:
+          blank: 'Задайте пароль'
+      user_session:
+        uuid:
+          blank: 'Укажите уникальный идентификатор'
