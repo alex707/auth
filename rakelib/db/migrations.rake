@@ -11,6 +11,12 @@ namespace :db do
       version = args.version.to_i if args.version
 
       Sequel::Migrator.run(db, migrations, target: version)
+
+      cmd = "sequel -d #{Settings.db.adapter}://#{Settings.db.user}@#{Settings.db.host}/#{Settings.db.database}"
+      value = "# version: #{db[:schema_migrations].all.last[:filename].match(/^\d{14}/)[0]} \n\n"
+      value << %x[ #{cmd} ]
+
+      File.write('db/schema.rb', value, mode: 'w')
     end
   end
 end
