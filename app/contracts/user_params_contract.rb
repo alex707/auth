@@ -1,8 +1,10 @@
 class UserParamsContract < Dry::Validation::Contract
-	EMAIL_FORMAT = /\A[\w+\-.]+@[a-z\d\-]+(\.[a-z\d\-]+)*\.[a-z]+\z/i
+  EMAIL_FORMAT = /\A[\w+\-.]+@[a-z\d\-]+(\.[a-z\d\-]+)*\.[a-z]+\z/i
+  NAME_FORMAT = /\A\w+\z/
 
   params do
     required(:user).hash do
+      optional(:id)
       required(:name).value(:string)
       required(:email).value(:string)
       required(:password).filled(:string)
