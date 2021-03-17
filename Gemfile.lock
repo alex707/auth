@@ -87,6 +87,8 @@ GEM
     rspec-support (3.10.2)
     ruby2_keywords (0.0.4)
     sequel (5.42.0)
+    sequel-seed (1.1.2)
+      sequel (>= 4.49.0)
     sequel_secure_password (0.2.15)
       bcrypt (>= 3.1, < 4.0)
       sequel (>= 4.1.0, < 6.0)
@@ -123,6 +125,7 @@ DEPENDENCIES
   rake
   rspec
   sequel
+  sequel-seed
   sequel_secure_password
   sinatra
   sinatra-contrib

@@ -24,4 +24,5 @@ group :development, :test do
   gem 'factory_bot'
   gem 'rack-test'
   gem 'database_cleaner-sequel'
+  gem 'sequel-seed'
 end
