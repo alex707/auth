@@ -10,14 +10,15 @@ gem 'sinatra', require: 'sinatra/base'
 gem 'sinatra-contrib'
 gem 'i18n'
 gem 'config'
+gem 'jwt', '~> 2.2.1'
 gem 'pg', '~> 1.2.3'
 gem 'sequel'
+gem 'sequel_secure_password'
 gem 'dry-initializer'
 gem 'dry-validation'
 
+gem 'activesupport'
 gem 'fast_jsonapi'
-
-gem 'sequel_secure_password'
 
 group :development, :test do
   gem 'rspec'

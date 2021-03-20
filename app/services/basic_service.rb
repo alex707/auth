@@ -6,6 +6,7 @@ module BasicService
   end
 
   def self.prepended(base)
+    # See https://dry-rb.org/gems/dry-initializer/3.0/skip-undefined/
     base.extend Dry::Initializer[undefined: false]
     base.extend ClassMethods
   end

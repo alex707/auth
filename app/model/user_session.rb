@@ -3,11 +3,6 @@ class UserSession < Sequel::Model
   
   many_to_one :user
 
-  def before_create
-    self.uuid ||= SecureRandom.uuid
-    super
-  end
-
   def validate
     super
     validates_presence :uuid, message: I18n.t(:blank, scope: 'model.errors.user_session.uuid')
