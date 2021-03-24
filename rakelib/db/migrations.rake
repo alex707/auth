@@ -4,6 +4,7 @@ namespace :db do
   desc 'Run database migrations'
   task :migrate, %i[version] => :settings do |t, args|
     require 'sequel/core'
+    Sequel.extension :schema_dumper
     Sequel.extension :migration
 
     Sequel.connect(Settings.db.to_hash) do |db|
@@ -12,11 +13,12 @@ namespace :db do
 
       Sequel::Migrator.run(db, migrations, target: version)
 
-      cmd = "sequel -d #{Settings.db.adapter}://#{Settings.db.user}@#{Settings.db.host}/#{Settings.db.database}"
-      value = "# version: #{db[:schema_migrations].all.last[:filename].match(/^\d{14}/)[0]}\n\n"
-      value << %x[ #{cmd} ]
+      db.extension :schema_dumper
 
-      File.write('db/schema.rb', value, mode: 'w')
+      value = "# version: #{db[:schema_migrations].all.last[:filename].match(/^\d{14}/)[0]}\n\n"
+      schema = db.dump_schema_migration.gsub(/^\s+$/, '')
+
+      File.write('db/schema.rb', value + schema, mode: 'w')
     end
   end
 end
