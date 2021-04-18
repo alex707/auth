@@ -33,12 +33,11 @@ module AdsService
 
     def create_queue
       channel = RabbitMq.channel
-      channel.queue('auth-reply-to', durable: true)
+      channel.queue('auth-user-id', durable: true)
     end
 
     def create_reply_queue
       channel = RabbitMq.channel
-      # создание псевдоочереди:
       channel.queue('amq.rabbitmq.reply-to')
     end
 
