@@ -8,7 +8,7 @@ class Consumer
   end
 
   def start
-    queue.subscribe(manual_ack: true) do |delivery_info, properties, payload|
+    queue.subscribe do |delivery_info, properties, payload|
       payload = JSON(payload)
 
       session_uuid = JwtEncoder.decode(payload['token'])
@@ -23,10 +23,11 @@ class Consumer
         user_id = result.user.id
       end
 
-      ads_service = AdsService::RpcClient.fetch(properties.correlation_id)
-      ads_service.user_id(user_id)
-
-      channel.ack(delivery_info.delivery_tag)
+      exchange.publish(
+        { user_id: user_id }.to_json,
+        routing_key: properties.reply_to,
+        correlation_id: properties.correlation_id
+      )
     end
   end
 end
