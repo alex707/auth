@@ -8,7 +8,7 @@ class Consumer
   end
 
   def start
-    queue.subscribe do |delivery_info, properties, payload|
+    queue.subscribe(manual_ack: true) do |delivery_info, properties, payload|
       payload = JSON(payload)
 
       session_uuid = JwtEncoder.decode(payload['token'])
@@ -23,15 +23,16 @@ class Consumer
         user_id = result.user.id
       end
 
-      exchange.publish(
-        { user_id: user_id }.to_json,
-        routing_key: properties.reply_to,
-        correlation_id: properties.correlation_id
-      )
+      ads_service = AdsService::RpcClient.fetch(properties.correlation_id)
+      ads_service.user_id(user_id)
+
+      channel.ack(delivery_info.delivery_tag)
     end
   end
 end
 
+# TODO: вынести
 consumer = Consumer.new.start
 puts 'Consumer auth started'
+# TODO: вынести в bin/app, чтобы независимо реквайрить код всего приложения
 loop { sleep 3 }
