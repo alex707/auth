@@ -14,7 +14,6 @@ gem 'jwt', '~> 2.2.1'
 gem 'pg', '~> 1.2.3'
 gem 'sequel'
 gem 'sequel_secure_password'
-gem 'bunny'
 gem 'dry-initializer'
 gem 'dry-validation'
 
